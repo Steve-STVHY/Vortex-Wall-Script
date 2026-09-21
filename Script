@@ -1,0 +1,31 @@
+local wall = script.Parent
+local Players = game:GetService("Players")
+
+local speed = 15
+local distance = 5
+
+local originalY = wall.Position.Y
+
+while true do
+    local player = Players:GetPlayers()[1]
+
+    if player and player.Character then
+        local root = player.Character:FindFirstChild("HumanoidRootPart")
+
+        if root then
+            local targetPosition = Vector3.new(
+                root.Position.X,
+                originalY,
+                root.Position.Z + distance
+            )
+
+            local direction = targetPosition - wall.Position
+
+            if direction.Magnitude > 0.5 then
+                wall.Position = wall.Position + direction.Unit * speed * 0.05
+            end
+        end
+    end
+
+    task.wait(0.05)
+end
